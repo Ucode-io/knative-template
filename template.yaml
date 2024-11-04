@@ -1,0 +1,4 @@
+name: my-custom-template
+description: "Мой кастомный шаблон для Knative функций"
+version: 1.0.0
+runtime: go
