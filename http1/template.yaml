@@ -1,0 +1,4 @@
+name: http1
+description: "Кастомный шаблон для Knative функций, основанный на HTTP"
+version: 1.0.0
+runtime: go
