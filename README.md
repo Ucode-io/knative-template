@@ -15,4 +15,4 @@ This guide walks you through installing the `func` CLI tool and creating a new K
 
 2. Create your Knative function by running the following command. Replace {FUNCTION-NAME} with your desired function name:
    ```bash
-   func create my-function -l go -t function --repository https://github.com/Ucode-io/knative-template
+   func create {FUNCTION-NAME} -l go -t function --repository https://github.com/Ucode-io/knative-template
