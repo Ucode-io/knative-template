@@ -1,18 +1,21 @@
-# Function Setup Guide
+# Installing `func` CLI on macOS and Ubuntu
 
-This guide walks you through installing the `func` CLI tool and creating a new Knative function using the Ucode.io Knative template.
+The `func` CLI tool is essential for working with Knative functions. This guide provides installation instructions for macOS and Ubuntu.
 
-## Prerequisites
+## Installation Steps
 
-- **Homebrew**: Ensure that [Homebrew](https://brew.sh/) is installed on your machine.
-
-## Steps to Create a New Function
-
-1. Install the `func` CLI tool using Homebrew:
-
+### macOS
+1. Install the Knative client:
    ```bash
+   brew install knative/client
+   brew install knative/client/kn
    brew install func
 
-2. Create your Knative function by running the following command. Replace {FUNCTION-NAME} with your desired function name:
+
+### ubuntu
+1. Install the Knative client:
    ```bash
-   func create {FUNCTION-NAME} -l go -t function --repository https://github.com/Ucode-io/knative-template
+   wget https://github.com/knative/func/releases/download/knative-v1.16.1/func_linux_amd64
+   chmod +x func_linux_amd64
+   sudo mv func_linux_amd64 /usr/local/bin/func
+
