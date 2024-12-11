@@ -7,10 +7,10 @@ The `func` CLI tool is essential for working with Knative functions. This guide 
 ### macOS
 1. Install the Knative client:
    ```bash
-   brew install knative/client
-2. Install the Knative kn:
-   ```bash
    brew install knative/client/kn
+2. Install the Knative kn-plugins:
+   ```bash
+   brew tap knative-extensions/kn-plugins
 3. Install the func:
    ```bash
    brew install func
