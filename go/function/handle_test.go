@@ -1,6 +1,7 @@
 package function
 
 import (
+	"function/pkg"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -15,7 +16,11 @@ func TestHandle(t *testing.T) {
 		res *http.Response
 	)
 
-	Handle(w, req)
+	cfg, _ := pkg.NewConfig()
+	params := pkg.NewParams(cfg)
+	handler := Handler(params)
+
+	handler(w, req)
 	res = w.Result()
 	defer res.Body.Close()
 

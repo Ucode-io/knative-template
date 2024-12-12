@@ -2,6 +2,7 @@ package function
 
 import (
 	"encoding/json"
+	"function/pkg"
 	"io"
 	"net/http"
 	"time"
@@ -27,38 +28,40 @@ const (
 	requestTimeout = 5 * time.Second
 )
 
-// Handle an HTTP Request.
-func Handle(w http.ResponseWriter, r *http.Request) {
-	var (
-		ucodeApi = sdk.New(&sdk.Config{
-			BaseURL:        baseUrl,
-			FunctionName:   "",
-			RequestTimeout: requestTimeout,
-			ProjectId:      projectId,
-		})
+func Handler(params *pkg.Params) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var (
+			ucodeApi = sdk.New(&sdk.Config{
+				BaseURL:        baseUrl,
+				FunctionName:   "",
+				RequestTimeout: requestTimeout,
+				ProjectId:      projectId,
+			})
 
-		request  sdk.Request
-		response sdk.Response
-	)
+			request  sdk.Request
+			response sdk.Response
+		)
 
-	ucodeApi.Config().AppId = appId
+		ucodeApi.Config().AppId = appId
+		{
+			requestByte, err := io.ReadAll(r.Body)
+			if err != nil {
+				handleResponse(w, returnError("error when getting request", err.Error()), http.StatusBadRequest)
+				return
+			}
 
-	{
-		requestByte, err := io.ReadAll(r.Body)
-		if err != nil {
-			handleResponse(w, returnError("error when getting request", err.Error()), http.StatusBadRequest)
-			return
+			if err = json.Unmarshal(requestByte, &request); err != nil {
+				handleResponse(w, returnError("error when unmarshl request", err.Error()), http.StatusInternalServerError)
+				return
+			}
 		}
 
-		if err = json.Unmarshal(requestByte, &request); err != nil {
-			handleResponse(w, returnError("error when unmarshl request", err.Error()), http.StatusInternalServerError)
-			return
-		}
+		params.Log.Info().Msgf("Request: %v", request)
+
+		response.Status = "done"
+
+		handleResponse(w, response, 200)
 	}
-
-	response.Status = "done"
-
-	handleResponse(w, response, 200)
 }
 
 func returnError(clientError string, errorMessage string) interface{} {
