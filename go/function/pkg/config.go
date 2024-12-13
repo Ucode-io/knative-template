@@ -25,7 +25,7 @@ type (
 		RedisHost string `env-required:"false" yaml:"host" env:"REDIS_HOST"`
 		RedisPort int    `env-required:"false" yaml:"port" env:"REDIS_PORT"`
 		RedisUser string `env-required:"false" yaml:"user" env:"REDIS_USER"`
-		RedisPass string `env-required:"false" yaml:"pass" env:"REDIS"`
+		RedisPass string `env-required:"false" yaml:"pass" env:"REDIS_PASS"`
 		Enabled   bool   `env-required:"false" yaml:"enabled" env:"REDIS_ENABLED"`
 	}
 )
