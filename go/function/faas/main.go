@@ -19,8 +19,6 @@ import (
 	function "function"
 )
 
-// Here is Azizbek's implementation of recoverMiddleware:
-
 var (
 	usage   = "run\n\nRuns a CloudFunction CloudEvent handler."
 	verbose = flag.Bool("V", false, "Verbose logging [$VERBOSE]")
@@ -63,7 +61,7 @@ func run() error {
 	cfg, _ := pkg.NewConfig()
 	params := pkg.NewParams(cfg)
 
-	var handler interface{} = function.Handler(params)
+	var handler any = function.Handler(params)
 
 	httpHandler := toHttpHandler(handler, ctx)
 	if httpHandler == nil {
@@ -121,7 +119,7 @@ func run() error {
 
 // if the handler signature is compatible with http handler the function returns an instance of `http.Handler`,
 // otherwise nil is returned
-func toHttpHandler(handler interface{}, ctx context.Context) http.Handler {
+func toHttpHandler(handler any, ctx context.Context) http.Handler {
 
 	if f, ok := handler.(func(rw http.ResponseWriter, req *http.Request)); ok {
 		return recoverMiddleware(http.HandlerFunc(f))

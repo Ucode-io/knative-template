@@ -1,3 +1,4 @@
+//go:build !debug
 // +build !debug
 
 package main
@@ -11,7 +12,7 @@ import (
 )
 
 func recoverMiddleware(handler http.Handler) http.Handler {
-	logger := log.New(os.Stdout, "", log.LstdFlags | log.Lmicroseconds)
+	logger := log.New(os.Stdout, "", log.LstdFlags|log.Lmicroseconds)
 	f := func(rw http.ResponseWriter, req *http.Request) {
 		defer func() {
 			if r := recover(); r != nil {
@@ -23,7 +24,6 @@ func recoverMiddleware(handler http.Handler) http.Handler {
 			}
 		}()
 		handler.ServeHTTP(rw, req)
-		return
 	}
 	return http.HandlerFunc(f)
 }
